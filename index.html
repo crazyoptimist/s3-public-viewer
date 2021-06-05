@@ -4,12 +4,11 @@
 <head>
   <script>
     const config = {
-      bucketUrl: 'https://YOUR_BUCKET_NAME.s3-us-east-1.amazonaws.com',
+      bucketUrl: 'https://s3.AWS_REGION.amazonaws.com/BUCKET_NAME',
       keyExcludePatterns: [ /^index\.html$/ ],
       pageSize: 50,
-      title: 'Pastel Network',
-      logo: 'https://pastel.network/wp-content/uploads/2017/12/5ec2c99de578f9490b344b3d_pastel-logo.png',
-      favicon: 'https://pastel.network/wp-content/uploads/2021/03/cropped-favicon-32x32.png'
+      title: 'SITE_TITLE',
+      favicon: 'FAVICON_URL'
     }
   </script>
   
@@ -28,19 +27,8 @@
 
 <body>
   <div id="app" v-cloak>
-    <!-- Header -->
-    <div class="level">
-      <div class="level-left" style="display: flex;">
-        <figure class="level-item image is-96x96" style="margin-right: 1.5rem;">
-          <img :src="config.logo"/>
-        </figure>
-        <div>
-          <h1 class="title">{{config.title}}</h1>
-        </div>
-      </div>
-    </div>
-    
     <div class="container">
+      <h1 class="title">{{config.title}}</h1>
       <!-- Navigation Bar -->
       <div class="container is-clearfix">
         <!-- Prefix Breadcrumps -->
@@ -187,9 +175,6 @@
         </div>
       </div>
     </div>
-    
-    <!-- Footer --> 
-    <div class="footer-bucket-url"><a :href="config.bucketUrl">Bucket: {{ config.bucketUrl }}</a></div>
   </div>
   
   <script>
@@ -200,30 +185,6 @@
     }
     if(!config.bucketUrl){
       config.bucketUrl = window.location.href
-    }
-    
-    if(config.bucketUrl){
-      // try adjusting bucket url to bucket rest api endpoint
-      let match 
-      if(!match){
-        // check for urls like https://s3.eu-central-1.amazonaws.com/example-bucket/index.html
-        match = config.bucketUrl.match(/(?<protocol>[^:]+):\/\/s3\.(?<region>[^.]+)\.amazonaws.com\/(?<name>[^/]+)/)
-      }
-      if(!match){
-        // check for urls like http://example-bucket.s3-website-eu-west-1.amazonaws.com/index.html
-        match = config.bucketUrl.match(/(?<protocol>[^:]+):\/\/(?<name>[^.]+)\.s3-website-(?<region>[^.]+)\.amazonaws\.com/)
-      }
-      if(!match){
-        // check for urls like http://example-bucket.s3-website.eu-central-1.amazonaws.com/index.html
-        match = config.bucketUrl.match(/(?<protocol>[^:]+):\/\/(?<name>[^.]+)\.s3-website\.(?<region>[^.]+)\.amazonaws\.com/)
-      }
-      
-      console.log(config.bucketUrl)
-      if(match){
-        let groups = match.groups
-        config.bucketUrl = `${groups.protocol}://s3.${groups.region}.amazonaws.com/${groups.name}`
-      }
-      console.log(config.bucketUrl)
     }
     
     document.title = config.title
@@ -484,20 +445,6 @@
       flex-shrink: 0;
       font-size: 0.85rem;
       line-height: 1.5rem;
-    }
-    
-    .footer-bucket-url {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin-bottom: 0.5rem;
-      font-size: small;
-      text-align: center;
-      color: darkgray;
-    }
-    .footer-bucket-url a {
-      color: inherit;
     }
     
     @media screen and (max-width: 768px) {
